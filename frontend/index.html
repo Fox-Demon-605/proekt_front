@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Чат-бот | Smart Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Авторизация -->
+        <div class="auth-container" id="authContainer">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="logo">
+                        <i class="fas fa-robot"></i>
+                        <h1>AI Assistant</h1>
+                    </div>
+                    <p class="auth-subtitle">Умный помощник для решения ваших задач</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Вход</span>
+                    </button>
+                    <button class="auth-tab" data-tab="register">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Регистрация</span>
+                    </button>
+                </div>
+                
+                <form id="loginForm" class="auth-form active">
+                    <div class="input-group">
+                        <label for="loginEmail">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input type="email" id="loginEmail" required placeholder="example@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="loginPassword">
+                            <i class="fas fa-lock"></i>
+                            Пароль
+                        </label>
+                        <input type="password" id="loginPassword" required placeholder="Введите пароль">
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Войти в систему
+                    </button>
+                    <div class="auth-error" id="loginError"></div>
+                </form>
+                
+                <form id="registerForm" class="auth-form">
+                    <div class="input-group">
+                        <label for="registerEmail">
+                            <i class="fas fa-envelope"></i>
+                            Email
+                        </label>
+                        <input type="email" id="registerEmail" required placeholder="example@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="registerPassword">
+                            <i class="fas fa-lock"></i>
+                            Пароль
+                        </label>
+                        <input type="password" id="registerPassword" required placeholder="Минимум 6 символов">
+                    </div>
+                    <div class="input-group">
+                        <label for="registerConfirm">
+                            <i class="fas fa-lock"></i>
+                            Подтверждение пароля
+                        </label>
+                        <input type="password" id="registerConfirm" required placeholder="Повторите пароль">
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Создать аккаунт
+                    </button>
+                    <div class="auth-error" id="registerError"></div>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>Нажимая кнопку, вы соглашаетесь с <a href="#">Политикой конфиденциальности</a></p>
+                </div>
+                       </div>
+        </div>
+
+        <!-- Основной интерфейс чата -->
+        <div class="chat-container" id="chatContainer" style="display: none;">
+            <!-- Шапка -->
+            <header class="chat-header">
+                <div class="header-left">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="logo-text">
+                            <h2>AI Assistant</h2>
+                            <p class="logo-subtitle">Умный помощник</p>
+                        </div>
+                    </div>
+                    <div class="session-info">
+                        <div class="session-id">
+                            <i class="fas fa-hashtag"></i>
+                            <span id="sessionId">#0001</span>
+                        </div>
+                        <div class="user-info">
+                            <i class="fas fa-user"></i>
+                            <span class="user-email" id="userEmail"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-icon tooltip" id="newSessionBtn" title="Новая сессия">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="btn-icon tooltip" id="clearChatBtn" title="Очистить чат">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button class="btn-icon tooltip" id="settingsBtn" title="Настройки">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="btn-icon tooltip" id="logoutBtn" title="Выйти">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </header>
+
+>
+
+            <!-- Окно чата -->
+            <main class="chat-main">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Приветственное сообщение -->
+                    <div class="message bot welcome">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">AI Assistant</span>
+                                <span class="message-time">Только что</span>
+                            </div>
+                            <div class="message-text">
+                                <h3>👋 Привет! Я ваш AI-помощник</h3>
+                                <p>Я могу помочь вам с:</p>
+                                <ul>
+                                    <li>Ответами на вопросы</li>
+                                    <li>Поиском информации</li>
+                                    <li>Решение задач</li>
+                                    <li>И многим другим!</li>
+                                </ul>
+                                <p>Просто напишите ваш вопрос ниже 👇</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Индикатор "бот печатает" -->
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-content">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span class="typing-text">AI Assistant печатает...</span>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Панель ввода -->
+            <footer class="chat-footer">
+                <form id="messageForm">
+                    <div class="input-wrapper">
+                        <div class="input-actions">
+                            <button type="button" class="btn-action tooltip" title="Прикрепить файл">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button type="button" class="btn-action tooltip" title="Эмодзи">
+                                <i class="fas fa-smile"></i>
+                            </button>
+                        </div>
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="Введите сообщение... (Enter для отправки, Shift+Enter для новой строки)" 
+                            rows="1"
+                            maxlength="1000"
+                        ></textarea>
+                        <button type="submit" class="btn-send" id="sendBtn" title="Отправить">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="input-footer">
+                        <span class="="char-counter" id="charCounter">0/1000</span>
+                        <div class="input-hints">
+                            <span class="hint"><i class="fas fa-lightbulb"></i> Попробуйте спросить о погоде или времени</span>
+                        </div>
+                    </div>
+                </form>
+            </footer>
+        </div>
+
+        <!-- Уведомления -->
+        <div class="notification-container">
+            <div class="notification" id="notification"></div>
+        </div>
+
+        <!-- Модальное окно настроек -->
+        <div class="modal" id="settingsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-cog"></i> Настройки</h3>
+                    <button class="modal-close" id="closeSettings">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-group">
+                        <h4><i class="fas fa-palette"></i> Внешний вид</h4>
+                        <div class="theme-selector">
+                            <button class="theme-btn active" data-theme="dark">
+                                <i class="fas fa-moon"></i> Темная
+                            </button>
+                            <button class="theme-btn" data-theme="light">
+                                <i class="fas fa-sun"></i> Светлая
+                            </button>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <h4><i class="fas fa-bell"></i> Уведомления</h4>
+                        <label class="switch">
+                            <input type="checkbox" id="notificationsToggle" checked>
+                            <span class="slider"></span>
+                            <span class="switch-label">Включить звуковые уведомления</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>
