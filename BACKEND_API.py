@@ -1,4 +1,4 @@
-// ==================== BACKEND API (Node.js + Express) ====================
+# ==================== BACKEND API (Node.js + Express) ====================
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -13,20 +13,20 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-// Middleware
+# Middleware
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
-// Подключение к MongoDB
+# Подключение к MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/online-library', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
-// ==================== МОДЕЛИ ====================
+# ==================== МОДЕЛИ ====================
 
-// Модель пользователя
+# Модель пользователя
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Модель книги
+# Модель книги
 const bookSchema = new mongoose.Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
@@ -79,7 +79,7 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model('Book', bookSchema);
 
-// Модель списка чтения
+# Модель списка чтения
 const readingListSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true },
@@ -94,7 +94,7 @@ const readingListSchema = new mongoose.Schema({
 
 const ReadingList = mongoose.model('ReadingList', readingListSchema);
 
-// Модель прогресса чтения
+# Модель прогресса чтения
 const readingProgressSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     bookId: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
@@ -108,7 +108,7 @@ const readingProgressSchema = new mongoose.Schema({
 
 const ReadingProgress = mongoose.model('ReadingProgress', readingProgressSchema);
 
-// Модель закладок
+# Модель закладок
 const bookmarkSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     bookIdId: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
@@ -120,7 +120,7 @@ const bookmarkSchema = new mongoose.Schema({
 
 const Bookmark = mongoose.model('Bookmark', bookmarkSchema);
 
-// Модель цитат
+# Модель цитат
 const quoteSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     bookId: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
@@ -135,7 +135,7 @@ const quoteSchema = new mongoose.Schema({
 
 const Quote = mongoose.model('Quote', quoteSchema);
 
-// Модель рецензий
+# Модель рецензий
 const reviewSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     bookId: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
@@ -149,7 +149,7 @@ const reviewSchema = new mongoose.Schema({
 
 const Review = mongoose.model('Review', reviewSchema);
 
-// Модель социальной активности
+# Модель социальной активности
 const activitySchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     type: { 
@@ -172,9 +172,9 @@ const activitySchema = new mongoose.Schema({
 
 const Activity = mongoose.model('Activity', activitySchema);
 
-// ==================== MIDDLEWARE ====================
+# ==================== MIDDLEWARE ====================
 
-// Middleware для проверки JWT токена
+# Middleware для проверки JWT токена
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -192,7 +192,7 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-// Middleware для загрузки файлов
+# Middleware для загрузки файлов
 const storage = multer.diskStorage({
     destination destination: (req, file, cb) => {
         const dir = 'uploads/';
@@ -209,7 +209,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ 
     storage: storage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+    limits: { fileSize: 50 * 1024 * 1024 }, # 50MB
     fileFilter: (req, file, cb) => {
         const allowedTypes = /jpeg|jpg|png|gif|pdf|epub|txt/;
         const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -223,23 +223,23 @@ const upload = multer({
     }
 });
 
-// ==================== РОУТЫ АВТОРИЗАЦИИ ====================
+# ==================== РОУТЫ АВТОРИЗАЦИИ ====================
 
-// Регистрация
+# Регистрация
 app.post('/api/auth/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        // Проверка существующего пользователя
+        # Проверка существующего пользователя
         const existingUser = await User.findOne({ $or: [{ email }, { username }] });
         if (existingUser) {
             return res.status(400).json({ error: 'Пользователь уже существует' });
         }
 
-        // Хэширование пароля
+        # Хэширование пароля
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Создание пользователя
+        # Создание пользователя
         const user = new User({
             username,
             email,
@@ -248,7 +248,7 @@ app.post('/api/auth/register', async (req, res) => {
 
         await user.save();
 
-        // Генерация токена
+        # Генерация токена
         const token = jwt.sign(
             { userId: user._id, username: user.username },
             JWT_SECRET,
@@ -270,7 +270,7 @@ app.post('/api/auth/register', async (req, res) => {
     }
 });
 
-// Вход
+# Вход
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -281,13 +281,13 @@ app.post('/api/auth/login', async (req, res) => {
             return res.status(401).json({ error: 'Неверные учетные данные' });
         }
 
-        // Проверка пароля
+        # Проверка пароля
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
             return res.status(401).json({ error: 'Неверные учетные данные' });
         }
 
-        // Генерация токена
+        # Генерация токена
         const token = jwt.sign(
             { userId: user._id, username: user.username },
             JWT_SECRET,
@@ -311,7 +311,7 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-// Получение профиля
+# Получение профиля
 app.get('/api/auth/profile', authenticateToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId)
@@ -329,7 +329,7 @@ app.get('/api/auth/profile', authenticateToken, async (req, res) => {
     }
 });
 
-// Обновление профиля
+# Обновление профиля
 app.put('/api/auth/profile', authenticateToken, upload.single('avatar'), async (req, res) => {
     try {
         const updates = req.body;
@@ -339,12 +339,12 @@ app.put('/api/auth/profile', authenticateToken, upload.single('avatar'), async (
             return res.status(404).json({ error: 'Пользователь не найден' });
         }
 
-        // Обновление аватара
+        # Обновление аватара
         if (req.file) {
             updates.avatar = `/uploads/${req.file.filename}`;
         }
 
-        // Обновление пароля
+        # Обновление пароля
         if (updates.password) {
             updates.password = await bcrypt.hash(updates.password, 10);
         }
@@ -369,9 +369,9 @@ app.put('/api/auth/profile', authenticateToken, upload.single('avatar'), async (
     }
 });
 
-// ==================== РОУТЫ КНИГ ====================
+# ==================== РОУТЫ КНИГ ====================
 
-// Получение всех книг
+# Получение всех книг
 app.get('/api/books', async (req, res) => {
     try {
         const { 
@@ -386,7 +386,7 @@ app.get('/api/books', async (req, res) => {
 
         const query = { isPublic: true };
         
-        // Фильтрация
+        # Фильтрация
         if (genre) query.genre = genre;
         if (author) query.author = new RegExp(author, 'i');
         if (search) {
@@ -397,11 +397,11 @@ app.get('/api/books', async (req, res) => {
             ];
         }
 
-        // Сортировка
+        # Сортировка
         const sortOptions = {};
         sortOptions[sort] = order === 'desc' ? -1 : 1;
 
-        // Пагинация
+        # Пагинация
         const skip = (page - 1) * limit;
 
         const books = await Book.find(query)
@@ -427,7 +427,7 @@ app.get('/api/books', async (req, res) => {
     }
 });
 
-// Получение книги по ID
+# Получение книги по ID
 app.get('/api/books/:id', async (req, res) => {
     try {
         const book = await Book.findById(req.params.id)
@@ -437,7 +437,7 @@ app.get('/api/books/:id', async (req, res) => {
             return res.status(404).json({ error: 'Книга не найдена' });
         }
 
-        // Получение рейтинга и рецензий
+        # Получение рейтинга и рецензий
         const reviews = await Review.find({ bookId: book._id })
             .populate('userId', 'username avatar')
             .sort({ createdAt: -1 })
@@ -460,7 +460,7 @@ app.get('/api/books/:id', async (req, res) => {
     }
 });
 
-// Загрузка новой книги
+# Загрузка новой книги
 app.post('/api/books', authenticateToken, upload.fields([
     { name: 'cover', maxCount: 1 },
     { name: 'file', maxCount: 1 }
@@ -487,7 +487,7 @@ app.post('/api/books', authenticateToken, upload.fields([
 
         await book.save();
 
-        // Создание активности
+        # Создание активности
         const activity = new Activity({
             userId: req.user.userId,
             type: 'book_uploaded',
