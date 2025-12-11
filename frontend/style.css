@@ -404,4 +404,143 @@ body {
     background: var(--bg-tertiary);
     padding: var(--spacing-lg);
     text-align: center;
-    color
+color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    font-size: var(--font-size-sm);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+    
+    .header {
+        padding: var(--spacing-lg);
+    }
+    
+    .logo h1 {
+        font-size: var(--font-size-xl);
+    }
+    
+    .subtitle {
+        font-size: var(--font-size-base);
+    }
+    
+    .main-content {
+        padding: var(--spacing-md);
+    }
+    
+    .message-content {
+        max-width: 85%;
+    }
+    
+    .tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Анимации */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Стили для скроллбара */
+.chat-messages::-webkit-scrollbar {
+    width: 6pxpx;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--text-light);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Стили для статуса загрузки */
+.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Стили для ошибок */
+.error-message {
+    background: linear-gradient(135deg, #fecaca, #fca5a5);
+    color: #7f1d1d;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    animation: slideIn 0.3s ease;
+}
+
+.error-message i {
+    font-size: 1.2rem;
+}
+
+/* Стили для успешных операций */
+.success-message {
+    background: linear-gradient(135deg, #bbf7d0, #86efac);
+    color: #14532d;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    animation: slideIn 0.3s ease;
+}
+
+/* Стили для пустого состояния */
+.empty-state {
+    text-align: center;
+       padding: var(--spacing-xl);
+    color: var(--text-secondary);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-light);
+}
+
+/* Стили для счетчика символов */
+.char-counter {
+    font-size: var(--font-size-xs);
+    color: var(--text-light);
+    text-align: right;
+    margin-top: var(--spacing-xs);
+}
+
+.char-counter.warning {
+    color: var(--warning-color);
+}
+
+.char-counter.error {
+    color: var(--danger-color);
+}
