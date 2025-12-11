@@ -1,6 +1,10 @@
 class WeatherChatBot {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:8000';
+        // Используем Vercel URL вместо localhost
+        this.apiBaseUrl = 'https://your-backend-app.vercel.app';
+        // Для локальной разработки
+        // this.apiBaseUrl = 'http://localhost:8000';
+        
         this.sessionId = null;
         this.isTyping = false;
         
