@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погодный Чат-Бот</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-cloud-sun"></i>
+                <h1>Погодный Чат-Бот</h1>
+            </div>
+            <p class="subtitle">Узнайте погоду в любом городе России</p>
+        </header>
 
+        <main class="main-content">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2><i class="fas fa-comments"></i> Чат с ботом</h2>
+                    <button id="clearChat" class="btn-clear" title="Очистить чат">
+                        <i class="fas fa-trash-alt"></i> Очистить
+                    </button>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Сообщения будут добавляться здесь -->
+                    <div class="message bot">
+                        <div class="message-content">
+                            <div class="message-sender">
+                                <i class="fas fa-robot"></i> Погодный Бот
+                            </div>
+                            <div class="message-text">
+                                Привет! Я бот погоды. Спросите о погоде в любом городе России!
+                            </div>
+                            <div class="message-time">Только что</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span>Бот печатает...</span>
+                </div>
+                
+                <div class="chat-input">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Напишите сообщение (например: 'Какая погода в Москве?')..."
+                        maxlength="500"
+                    >
+                    <button id="sendButton" class="btn-send">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+                <div class="chat-tips">
+                    <p><strong>Примеры вопросов:</strong></p>
+                    <div class="tips-grid">
+                        <button class="tip-btn" data-text="Какая погода в Москве?">Москва</button>
+                        <button class="tip-btn" data-text="Погода в Санкт-Петербурге">Санкт-Петербург</button>
+                        <button class="tip-btn" data-text="Сочи">Сочи</button>
+                        <button class="tip-btn" data-text="Что ты умеешь?">Помощь</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> О боте</h3>
+                    <p>Этот чат-бот может рассказать о погоде в городах России. Просто напишите название города!</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-lightbulb"></i> Советы</h3>
+                    <ul>
+                        <li>Нажимайте Enter для отправки сообщения</li>
+                        <li>Используйте кнопки быстрых вопросов</li>
+                        <li>Чат сохраняется в вашем браузере</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-cloud-sun-rain"></i> Поддерживаемые города</h3>
+                    <div class="cities-list">
+                        <span class="city-tag">Москва</span>
+                        <span class="city-tag">Санкт-Петербург</span>
+                        <span class="city-tag">Сочи</span>
+                        <span class="city-tag">Казань</span>
+                        <span class="city-tag">Новосибирск</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>© 2024 Погодный Чат-Бот | Разработано для учебного проекта</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
