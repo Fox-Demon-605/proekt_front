@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Онлайн библиотека — AI помощник</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>Онлайн библиотека — AI помощник</h1>
+      <div class="auth">
+        <input id="email" type="email" placeholder="Email" />
+        <input id="password" type="password" placeholder="Пароль" />
+        <button id="btnRegister">Регистрация</button>
+        <button id="btnLogin">Вход</button>
+        <button id="btnLogout" hidden>Выход</button>
+      </div>
+    </header>
+
+    <section class="chat-wrap">
+      <div id="chat" class="chat" aria-live="polite"></div>
+
+      <div class="controls">
+        <input id="messageInput" type="text" placeholder="Введите сообщение..." />
+        <button id="sendBtn">Отправить</button>
+        <button id="clearBtn">Очистить чат</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>© Библиотека + AI помощник</small>
+    </footer>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
