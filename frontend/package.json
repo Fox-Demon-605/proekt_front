@@ -1,1 +1,13 @@
-
+{
+  "name": "weather-chatbot-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Weather ChatBot",
+  "scripts": {
+    "build": "echo 'No build step required for static files'",
+    "deploy": "gh-pages -d ."
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  },
+  "homepage": "https://yourusername.github.io/weather-chatbot"
+}
